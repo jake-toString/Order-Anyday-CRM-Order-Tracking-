@@ -1,0 +1,171 @@
+﻿
+@model OrderAnydayProject.ViewModels.OrderApprovalViewModel
+
+@{
+    ViewBag.Title = "Declined Orders";
+}
+
+<section>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-solid box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Declined Orders</h3>
+                    <div class="box-tools">
+                        <div class="box-tools pull-right">
+                            <i class="fa fa-arrow-left"></i> @Html.ActionLink("Back To Home", "Profile", "Home")
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table id="example2" class="table no-margin table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.orderVM.order.OrderNumber)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.orderVM.orderTotal)
+                                    </th>
+                                    <th>
+                                        @Html.Label("Status")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.orderVM.order.Placed)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.user.Department)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.user.UserName)
+                                    </th>
+
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (User.IsInRole("Admin"))
+                                    {
+                                        foreach (var item in Model.ordersVM)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.order.OrderNumber)
+                                                </td>
+                                                <td>
+                                                    $ @Html.DisplayFor(modelItem => item.orderTotal)
+                                                </td>
+                                                <td>
+                                                    @{
+
+
+                                                        if (item.order.IsActive == "d")
+                                                        {
+                                                            <span class="label label-danger">
+                                                                @Html.Label("Declined")
+                                                            </span>
+                                                        }
+
+
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.order.Placed)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.user.Department)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.user.UserName)
+                                                </td>
+                                                <td>
+                                                    @Html.ActionLink("Received", "PendingOrders", "OrderApproval", new { id = item.order.OrderNumber, status = "co" }, null) |
+                                                    @Html.ActionLink("Details", "OrderInvoice", "OrderDetails", new { id = item.order.OrderNumber }, null)
+                                                </td>
+                                            </tr>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            foreach (var item in Model.ordersVM)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => item.order.OrderNumber)
+                                                                    </td>
+                                                                    <td>
+                                                                        $ @Html.DisplayFor(modelItem => item.orderTotal)
+                                                                    </td>
+                                                                    <td>
+                                                                        @{
+
+
+                                                                            if (item.order.IsActive == "d")
+                                                                            {
+                                                                                <span class="label label-danger">
+                                                                                    @Html.Label("Declined")
+                                                                                </span>
+                                                                            }
+
+
+                                                                        }
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => item.order.Placed)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => item.user.Department)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => item.user.UserName)
+                                                                    </td>
+                                                                    <td>
+
+                                                                        @Html.ActionLink("Details", "OrderInvoice", "OrderDetails", new { id = item.order.OrderNumber }, new { @class = "btn btn-xs btn-default" })
+                                                                    </td>
+                                                                </tr>
+                                                                                }
+                                                                            }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col-xs-12 -->
+    </div>
+    <!-- /.row -->
+
+</section>
+
+@section Scripts {
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    @*<script src="~/Content/jquery.js"></script>*@
+    <script src="~/Content/jquery-ui.js"></script>
+    <script src="~/Content/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="~/Content/DataTables/datatables.min.css" />
+
+    <script type="text/javascript" src="~/Content/DataTables/datatables.min.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $('#example2').DataTable({
+                    colReorder: true,
+                    "pagingType": "full_numbers"
+                });
+            });
+
+            $(function () {
+                $("#txtSearch").autocomplete({
+                    source: '@Url.Action("Search", "Search")'
+                });
+            });
+
+    </script>
+}

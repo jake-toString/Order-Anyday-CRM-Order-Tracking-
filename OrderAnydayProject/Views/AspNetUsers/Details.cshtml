@@ -1,0 +1,123 @@
+﻿@model OrderAnydayProject.Models.AspNetUser
+
+@{
+    ViewBag.Title = "User Details";
+}
+
+<h1>@(ViewBag.Title)</h1>
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-solid box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">User Details</h3>
+                <div class="box-tools">
+                    <p>
+                        <i class="fa fa-arrow-left"></i> @Html.ActionLink("Back to User", "Index")
+                    </p>
+                </div>
+            </div>
+            <div>
+                
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.FirstName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.LastName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Birthdate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Birthdate)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Department)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Department)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Email)
+                    </dd>
+
+                   
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PhoneNumber)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PhoneNumber)
+                    </dd>
+
+                    
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.UserName)
+                    </dd>
+
+                </dl>
+                <div class="row">
+                    <div class="col-md-offset-1 col-md-2">
+
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <br />
+                        </div>
+                    </div>
+                   
+
+                </div>
+        </div>
+    </div>
+        </div>
+    </div>
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+                <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+                @*<script src="~/Content/jquery.js"></script>*@
+                <script src="~/Content/jquery-ui.js"></script>
+                <script src="~/Content/jquery.min.js"></script>
+
+                <script type="text/javascript">
+                    setTimeout(function () {//fades out success message after 5 seconds
+                        $('#fadediv').fadeOut('fast');
+                    }, 5000); // can set to make a longer or shorter timeout
+
+                    $(function () {
+                        $("#txtSearch").autocomplete({
+                            source: '@Url.Action("Search", "Search")'
+                        });
+                    });
+                </script>
+            }

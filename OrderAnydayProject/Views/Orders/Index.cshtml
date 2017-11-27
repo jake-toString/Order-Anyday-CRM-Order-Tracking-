@@ -1,0 +1,137 @@
+﻿@model IEnumerable<OrderAnydayProject.Models.Order>
+
+@{
+    ViewBag.Title = "Orders";
+}
+
+<section>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-solid box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">All Orders</h3>
+                    <div class="box-tools">
+                    <div class="box-tools pull-right">
+                        <i class="fa fa-arrow-left"></i> @Html.ActionLink("Back To Home", "Profile", "Home")
+                    </div>
+                </div>
+                </div>
+                <div class="box-body">
+
+                    <div class="table-responsive">
+                        <table id="example2" class="table no-margin table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.OrderNumber)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.AspNetUser.FirstName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Placed)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Last_Active)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.IsActive)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.OrderNumber)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.AspNetUser.FirstName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Placed)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Last_Active)
+                                        </td>
+                                        <td>
+                                            @{
+                                                if (item.IsActive == "p")
+                                                {
+                                                    <span class="label label-warning">
+                                                        @Html.Label("Pending")
+                                                        </span>
+                                                }
+
+                                                if (item.IsActive == "a")
+                                                {
+                                                    <span class="label label-success">
+                                                        @Html.Label("Approved")
+                                                    </span>
+                                                }
+
+                                                if (item.IsActive == "c")
+                                                {
+                                                    <span class="label label-danger">
+                                                        @Html.Label("Cancelled")
+                                                    </span>
+                                                }
+
+                                                if (item.IsActive == "d")
+                                                {
+                                                    <span class="label label-danger">
+                                                        @Html.Label("Declined")
+                                                    </span>
+                                                }
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="btn-group-xs pull-right">
+                                                @Html.ActionLink("Details", "OrderInvoice", "OrderDetails", new { id = item.OrderNumber }, new { @class = "btn btn-default" })
+                                                @Html.ActionLink("Delete", "Delete", new { id = item.OrderNumber }, new { @class = "btn btn-danger" })
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col-xs-12 -->
+    </div>
+    <!-- /.row -->
+</section>
+
+@section Scripts {
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    @*<script src="~/Content/jquery.js"></script>*@
+    <script src="~/Content/jquery-ui.js"></script>
+    <script src="~/Content/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="~/Content/DataTables/datatables.min.css" />
+
+    <script type="text/javascript" src="~/Content/DataTables/datatables.min.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $('#example2').DataTable();
+            } );
+
+            $(document).ready(function () {
+                $('#table_id').DataTable();
+            });
+
+            $(function () {
+                $("#txtSearch").autocomplete({
+                    source: '@Url.Action("Search", "Search")'
+                });
+            });
+    </script>
+}
+

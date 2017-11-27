@@ -1,0 +1,106 @@
+﻿@model IEnumerable<OrderAnydayProject.Models.UserNotification>
+@using Microsoft.AspNet.Identity;
+@using OrderAnydayProject.Models;
+
+@{
+    ViewBag.Title = "Index";
+    OrderAnyDayContext db = new OrderAnyDayContext();
+    var uid = User.Identity.GetUserId();
+    var notifications = db.UserNotifications.Where(s => s.UserId == uid).ToList();
+}
+
+<hr />
+
+<section>
+    <div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-solid box-danger">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Notifications</h3>
+                        <div class="box-tools">
+                            <div class="box-tools pull-right">
+                                <p>
+                                    @Html.ActionLink("New Notification ", "Create")<i class="fa fa-plus"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table id="example2" class="table no-margin table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.AspNetUser.FirstName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Notification.Description)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Notes)
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in notifications)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.AspNetUser.FirstName
+                                            </td>
+                                            <td>
+                                                @item.Notification.Description
+                                            </td>
+                                            <td>
+                                                @item.Notes
+                                            </td>
+                                            <td>
+                                                <div class="btn-group-xs pull-right">
+                                                    @Html.ActionLink("Details", "Details", new { order = item.OrderNumber, uid = item.UserId }, new { @class = "btn btn-default" })
+                                                    @Html.ActionLink("Delete", "Delete", new { order = item.OrderNumber, uid = item.UserId }, new { @class = "btn btn-danger" })
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+
+
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    @*<script src="~/Content/jquery.js"></script>*@
+    <script src="~/Content/jquery-ui.js"></script>
+    <script src="~/Content/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="~/Content/DataTables/datatables.min.css" />
+
+    <script type="text/javascript" src="~/Content/DataTables/datatables.min.js"></script>
+    
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $('#example2').DataTable();
+            } );
+
+            $(document).ready(function () {
+                $('#table_id').DataTable();
+            });
+
+            $(function () {
+                $("#txtSearch").autocomplete({
+                    source: '@Url.Action("Search", "Search")'
+                });
+            });
+    </script>
+}

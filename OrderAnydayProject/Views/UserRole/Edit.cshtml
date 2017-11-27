@@ -1,0 +1,155 @@
+﻿@model OrderAnydayProject.ViewModels.UserRoleViewModel
+
+@{
+    ViewBag.Title = "Update User Information";
+}
+
+<h1>@(ViewBag.Title)</h1>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-solid box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Edit User</h3>
+                <div class="box-tools">
+                    <p>
+                        <i class="fa fa-arrow-left"></i> @Html.ActionLink("Back to Users", "Index", "AspNetUsers")
+                    </p>
+                </div>
+                </div>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.aspNetUser.Id)
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.aspNetUser.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.aspNetUser.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.aspNetUser.UserName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.aspNetUser.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.aspNetUser.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.aspNetUser.FirstName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.aspNetUser.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.aspNetUser.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.aspNetUser.LastName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.aspNetUser.Birthdate, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.aspNetUser.Birthdate, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.aspNetUser.Birthdate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Department, new { @class = "col-md-2 control-label" })
+                                <div class="col-md-10">
+                                    @*@Html.TextBoxFor(m => m.Department, new { @class = "form-control" })*@
+                                    @Html.DropDownList("Department", (SelectList)ViewBag.Dept, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Department, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UserRole, new { @class = "col-md-2 control-label" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("UserRole", (SelectList)ViewBag.Name, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.UserRole, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.aspNetUser.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.aspNetUser.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.aspNetUser.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.aspNetUser.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.aspNetUser.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.aspNetUser.PhoneNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.aspNetUser.LockoutEndDateUtc, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.aspNetUser.LockoutEndDateUtc, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.aspNetUser.LockoutEndDateUtc, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.aspNetUser.LockoutEnabled, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        @Html.EditorFor(model => model.aspNetUser.LockoutEnabled)
+                                        @Html.ValidationMessageFor(model => model.aspNetUser.LockoutEnabled, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.aspNetUser.AccessFailedCount, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.aspNetUser.AccessFailedCount, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.aspNetUser.AccessFailedCount, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Save" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+   
+
+               
+
+                @section Scripts {
+                    @Scripts.Render("~/bundles/jqueryval")
+                    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+                    @*<script src="~/Content/jquery.js"></script>*@
+                    <script src="~/Content/jquery-ui.js"></script>
+                    <script src="~/Content/jquery.min.js"></script>
+
+                    <script type="text/javascript">
+                        setTimeout(function () {//fades out success message after 5 seconds
+                            $('#fadediv').fadeOut('fast');
+                        }, 5000); // can set to make a longer or shorter timeout
+
+                        $(function () {
+                            $("#txtSearch").autocomplete({
+                                source: '@Url.Action("Search", "Search")'
+                            });
+                        });
+                    </script>
+                }
+
+

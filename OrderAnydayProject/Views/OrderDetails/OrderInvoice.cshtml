@@ -1,0 +1,203 @@
+﻿@model OrderAnydayProject.ViewModels.OrderDetailsViewModel
+
+@{
+    ViewBag.Title = "Order Invoice";
+}
+
+<section class="invoice">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2 class="page-header">
+                <img src="~/Content/images/SPS_.png" class="img-circle" title="logo" alt="logo" /> Order<b style="color:steelblue;">Anyday</b>
+                <small class="pull-right">Date: @Html.DisplayFor(model => model.orders.Placed)</small>
+            </h2>
+        </div>
+        <!-- /.col -->
+    </div>
+    <h4>Order Details</h4>
+    <hr />
+    
+    <!-- info row -->
+    <div class="row invoice-info">
+        <div class="col-sm-4 invoice-col">
+            From
+            <address>
+                <strong>Admin</strong><br>
+                795 Kent Ave, Suite 666<br>
+                Kent, OH 44720<br>
+                Phone: (330) 123-4680<br>
+                Email: tech_support@orderanyday.com
+            </address>
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-4 invoice-col">
+            To
+            <address>
+                <strong>@Html.DisplayFor(model => model.FullName)</strong><br>
+                Dept: @Html.DisplayFor(model => model.user.Department)<br />
+                795 Kent Ave, Suite 666<br>
+                Kent, OH 44720<br>
+                Phone: @Html.DisplayFor(model => model.user.PhoneNumber)<br>
+                Email: @Html.DisplayFor(model => model.user.Email)
+            </address>
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-4 invoice-col">
+            @*<b>Invoice #007612</b><br>*@
+            <br>
+            <b>Order ID:</b># @Html.DisplayFor(model => model.orders.OrderNumber)<br>                          
+            <b>Order Status:</b>
+                        @{ if (Model.orders.IsActive == "a")
+                            {
+                                <span class="label label-success">
+                                    @Html.Label("Approved")
+                                </span>
+                            }
+                            if (Model.orders.IsActive == "d")
+                            {
+                                <span class="label label-danger">
+                                    @Html.Label("Declined")
+                                </span>
+                            }
+
+                            if (Model.orders.IsActive == "p")
+                            {
+                                <span class="label label-warning">
+                                    @Html.Label("Pending")
+                                </span>
+                            }
+                            if (Model.orders.IsActive == "c")
+                            {
+                                <span class="label label-danger">
+                                    @Html.Label("Canceled")
+                                </span>
+                            }
+                            if (Model.orders.IsActive == "Completed")
+                            {
+                                <span class="label label-default">
+                                    @Html.Label("Completed")
+                                </span>
+                                    }
+                                    }
+</div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    
+    <div>
+        <!-- Table row -->
+        <div class="row">
+            <div class="col-xs-12 table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.orderitem.First().Quantity)</th>
+                            <th>@Html.DisplayNameFor(model => model.product.First().ItemName)</th>
+                            <th>@Html.DisplayNameFor(model => model.product.First().Brand)</th>
+                            <th>@Html.DisplayNameFor(model => model.vendor.First().Vendor_Name)</th>
+                            <th>Item Cost</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.orderitem)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.ItemName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.Brand)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Vendor.Vendor_Name)
+                                </td>
+                                <td>
+                                    $@Html.DisplayFor(modelItem => item.Product.Price)
+                                </td>
+                                <td>
+                                    @{
+                                        double j;
+                                        j = Convert.ToDouble(item.Product.Price);
+                                        j = j * item.Quantity;
+                                        }
+                                    $@j
+                                </td>
+                            </tr>
+                                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.col -->
+        </div>
+
+      
+    </div>
+    <hr />
+    <div class="row">
+        <!-- accepted payments column -->
+        <div class="col-xs-6">
+           
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-6">
+            
+                
+            <p class="lead">DatePlaced: @Html.DisplayFor(model => model.orders.Placed)</p>
+                
+             
+            <div class="table-responsive">
+                <table class="table">
+                    
+                    <tr>
+                        <th>Total:</th>
+                        <td>$@Html.DisplayFor(model => model.totalPrice)</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    
+    <div class="btn-group">
+        <button onclick="myFunction()">Print</button>
+        <input type="button" id="goback" value="Back To Orders" />
+    </div>
+    
+    </section>
+    @section Scripts {
+        <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+        @*<script src="~/Content/jquery.js"></script>*@
+        <script src="~/Content/jquery-ui.js"></script>
+        <script src="~/Content/jquery.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="~/Content/DataTables/datatables.min.css" />
+
+        <script type="text/javascript" src="~/Content/DataTables/datatables.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#order').DataTable({
+                    "paging": false,
+                    "searching": false
+                });
+            });
+
+            $(function () {
+                $("#txtSearch").autocomplete({
+                    source: '@Url.Action("Search", "Search")'
+                });
+            });
+
+            $(document).on('click', '#goback', function () {
+                history.go(-1);
+            });
+
+            function myFunction() {
+                window.print();
+            }
+        </script>
+    }

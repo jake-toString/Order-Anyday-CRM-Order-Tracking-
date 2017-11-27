@@ -1,0 +1,68 @@
+﻿@model OrderAnydayProject.Models.Order
+
+@{
+    ViewBag.Title = "Order Details";
+}
+
+<h1>@(ViewBag.Title)</h1>
+<div>
+    <h4>Order</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AspNetUser.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AspNetUser.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Placed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Placed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Last_Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Last_Active)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.OrderNumber }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    @*<script src="~/Content/jquery.js"></script>*@
+    <script src="~/Content/jquery-ui.js"></script>
+    <script src="~/Content/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        setTimeout(function () {//fades out success message after 5 seconds
+            $('#fadediv').fadeOut('fast');
+        }, 5000); // can set to make a longer or shorter timeout
+
+        $(function () {
+            $("#txtSearch").autocomplete({
+                source: '@Url.Action("Search", "Search")'
+            });
+        });
+    </script>
+}

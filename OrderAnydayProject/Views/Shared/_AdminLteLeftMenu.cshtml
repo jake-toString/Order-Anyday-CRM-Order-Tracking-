@@ -1,0 +1,169 @@
+﻿@using Microsoft.AspNet.Identity;
+@using OrderAnydayProject.Models;
+@{OrderAnyDayContext db = new OrderAnyDayContext(); }
+@* 
+ This partial controls the left menu of the AdminLTE dashboard and is called automatically by _AdminLteLayout
+    This is where you can add, modify, or remove navigation options in your app
+    TODO: This preserves the links as-is for the demo, which lead to broken pages!
+    It's up to you to make sure these links either get deleted or lead somewhere REAL!
+*@
+
+
+@{
+    Layout = null;
+}
+<aside class="main-sidebar" style="position: fixed;">
+    <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">   
+            <!-- search form -->
+            @*<form action="#" method="get" class="sidebar-form">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search..." />
+                    <span class="input-group-btn">
+                        <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </form>*@
+            <!-- /.search form -->      
+            @{
+                var uid = User.Identity.GetUserId();
+                AspNetUser user = (from s in db.AspNetUsers where s.Id == uid select s).FirstOrDefault();
+            }
+            <div class="user-panel">
+                <div class="pull-left image">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <img src="~/Content/images/Windows7UACIcon_trans.png" class="img-circle" alt="User Image" />
+                    }
+                    else
+                    { <img src="~/Content/images/win10User.png" class="img-circle" alt="User Image" /> }
+
+                </div>
+                <div class="pull-left info">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <p>@user.FirstName</p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> @user.Department</a>
+                    }
+                    else
+                    {
+                        <p>@user.FirstName<span> </span>@user.LastName</p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> @user.Department</a>
+                    }        
+                </div>
+           </div>
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <div class="ui-front">
+                @using (Html.BeginForm("Index", "Search", FormMethod.Post, new { @class = "sidebar-form" }))
+            {
+                    <div class="input-group">
+                        @Html.TextBox("searchString", null, new { id = "txtSearch", @class = "form-control", placeholder = "Search.." })
+                        <span class="input-group-btn">
+                            <button type="submit" name="search" id="search-btn" class="btn btn-flat" />
+                            <i class="fa fa-search"></i>
+                        </span>
+                    </div>
+                }
+            </div>
+            <ul class="sidebar-menu">
+                <li class="header">MAIN NAVIGATION</li>
+                <li class="treeview">
+                    <a href="@Url.Action("Profile", "Home")">
+                        <i class="fa fa-home"></i> <span>My Profile</span>
+                    </a>
+                
+                </li>
+                <li class="treeview">
+                    <a href="@Url.Action("Index", "Products")">
+                        <i class="fa fa-th-large"></i> <span>Products</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-address-book"></i>
+                        <span>Vendors</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-down pull-right"></i>
+                        </span>
+                    </a>
+
+                    <!--Could use this to display each vendor and link to its details page if time allows-->
+                    <ul class="treeview-menu">
+                        <li><a href="/Vendors/Index"><i class="fa fa-archive"></i>All Vendors</a></li>
+                        <li><a href="/Vendors/Create"><i class="fa fa-address-card"></i>New Vendor</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-dropbox"></i> <span>Order Portal</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-down pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/Orders/Index"><i class="fa fa-archive"></i>All Orders</a></li>
+
+                        <li><a href="/ShoppingCart/Index"><i class="fa fa-shopping-cart"></i>View Cart</a></li>
+                    </ul>
+                </li>
+                
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-cog"></i> <span>Manage Account</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-down pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/Manage/Index"><i class="fa fa-address-card"></i>Manage Password</a></li>      
+                    </ul>
+                </li>
+
+                @if (User.IsInRole("Admin"))
+            {
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-user"></i>
+                            <span>Users</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-down pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="/AspNetUsers/Index">
+                                    <i class="fa fa-users"></i>All Users</a ></li >
+                        @*<li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
+                    <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>*@
+                            <li><a href="/Account/Register"><i class="fa fa-user-plus"></i>New User</a></li>
+                        </ul>
+                    </li>
+                }
+                <!-- User image -->
+        @*<li class="user-header" style="position: fixed; bottom: 0;">
+            @if (User.IsInRole("Admin"))
+            {
+                <img src="~/Content/images/Windows7UACIcon_trans.png" class="img-circle" alt="User Image" />
+            }
+            else
+            { <img src="~/Content/images/win10User.png" class="img-circle" alt="User Image" /> }
+            <img src="~/Content/images/profile.jpg" class="img-circle" alt="User Image" />
+            <p style="color: whitesmoke; text-align: center;">
+                @{
+                    var uid = User.Identity.GetUserId();
+                    AspNetUser user = (from s in db.AspNetUsers where s.Id == uid select s).FirstOrDefault();
+                }
+                @if (user.FirstName == "Admin")
+                        {
+                        @user.FirstName<small> | Manager</small>
+                        }
+                        else
+                        {
+                    @user.FirstName<span> </span>@user.LastName<small> | @user.Department</small>
+                        }
+            </p>
+        </li>*@
+        </ul>
+</section>
+        <!-- /.sidebar -->
+</aside>

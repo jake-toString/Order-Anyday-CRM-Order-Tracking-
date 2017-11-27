@@ -1,0 +1,82 @@
+﻿@model OrderAnydayProject.ViewModels.OrderApprovalViewModel
+
+@{
+    ViewBag.Title = "Approve Order";
+}
+
+<h1>@(ViewBag.Title)</h1>
+<div>
+    <h4>Approve Order</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.order.OrderNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.order.OrderNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.order.Placed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.order.Placed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.order.Last_Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.order.Last_Active)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.order.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.order.IsActive)
+
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.user.Department)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user.Department)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.fullname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fullname)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Approve", "ApproveOrder", new { id = Model.order.OrderNumber }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    @*<script src="~/Content/jquery.js"></script>*@
+    <script src="~/Content/jquery-ui.js"></script>
+    <script src="~/Content/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        setTimeout(function () {//fades out success message after 5 seconds
+            $('#fadediv').fadeOut('fast');
+        }, 5000); // can set to make a longer or shorter timeout
+
+        $(function () {
+            $("#txtSearch").autocomplete({
+                source: '@Url.Action("Search", "Search")'
+            });
+        });
+    </script>
+}

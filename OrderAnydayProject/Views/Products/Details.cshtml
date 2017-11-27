@@ -1,0 +1,103 @@
+﻿@model OrderAnydayProject.Models.Product
+
+@{
+    ViewBag.Title = "Product Details";
+}
+
+<div class="box box-warning box-solid">
+    <div class="box-header with-border">
+        <h3 class="box-title">Product Details</h3>
+        <div class="box-tools">
+            <div class="box-tools pull-right">
+                <i class="fa fa-arrow-left"></i> @Html.ActionLink("Back to Products", "Index", "Products", new { id = Model.VendorID }, null)
+
+            </div>
+        </div>
+    </div><!-- /.box-header -->
+    <div class="box-body">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Vendor.Vendor_Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Vendor.Vendor_Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ItemName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ItemName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Brand)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Brand)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Category)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Category)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+
+            <dd>
+                $@Html.DisplayFor(model => model.Price)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Discontinued)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Discontinued)
+            </dd>
+        </dl>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer">
+            @using (Html.BeginForm("AddToCart", "ShoppingCart", new { id = Model.ItemNumber }, FormMethod.Post))
+            {
+                <input type="number" name="quantity" min="1" value="1" style="width: 60px" />
+                <input type="submit" value="Add to Cart" class="btn-xs btn-success"/>
+                <div class="box-tools pull-right">
+                    <div class="btn-group-xs">
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.ItemNumber }, new { @class = "btn btn-default" })
+                       
+                    </div>
+                </div>
+            }
+        
+    </div>
+    <!-- box-footer -->
+</div>
+<!-- /.box -->
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    @*<script src="~/Content/jquery.js"></script>*@
+    <script src="~/Content/jquery-ui.js"></script>
+    <script src="~/Content/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        setTimeout(function () {//fades out success message after 5 seconds
+            $('#fadediv').fadeOut('fast');
+        }, 5000); // can set to make a longer or shorter timeout
+
+        $(function () {
+            $("#txtSearch").autocomplete({
+                source: '@Url.Action("Search", "Search")'
+            });
+        });
+    </script>
+}

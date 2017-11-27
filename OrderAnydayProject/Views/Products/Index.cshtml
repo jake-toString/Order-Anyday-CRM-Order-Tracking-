@@ -1,0 +1,131 @@
+﻿@model IEnumerable<OrderAnydayProject.Models.Product>
+
+@{
+    ViewBag.Title = "Products";
+}
+
+@if (TempData["success"] != null)
+{
+    <div class="text-green fadediv" id="fadediv">
+        <p><strong>Success:</strong> @TempData["success"].ToString()</p>
+    </div>
+}
+<section>
+    <div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-solid box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">All Products</h3>
+
+                        <div class="box-tools">
+                            <div class="box-tools pull-right">
+                                <p>
+                                    @Html.ActionLink("Create New", "Create") <i class="fa fa-plus"></i>
+                                </p>                                                    
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table id="table_id" class="table no-margin table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Category)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Vendor.Vendor_Name)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.ItemName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Brand)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Price)
+                                        </th>
+                                        <th>
+                                            Quantity: Add to Cart
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Category)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Vendor.Vendor_Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ItemName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Brand)
+                                            </td>
+                                            <td>
+                                                $@Html.DisplayFor(modelItem => item.Price)
+                                            </td>
+                                            <td>
+                                                @using (Html.BeginForm("AddToCart", "ShoppingCart", new { id = item.ItemNumber }, FormMethod.Post))
+                                                {
+                                                    <input type="number" name="quantity" min="1" value="1" style="width: 60px" />
+                                                    <input type="submit" value="Add to Cart" class="btn-xs btn-success"/>
+                                                }
+                                            </td>
+                                            <td>
+                                                <div class="btn-group-xs pull-right">
+                                                    @Html.ActionLink("Edit", "Edit", new { id = item.ItemNumber }, new { @class = "btn btn-default" })
+                                                    @Html.ActionLink("Details", "Details", new { id = item.ItemNumber }, new { @class = "btn btn-default" })
+                                                    @Html.ActionLink("Delete", "Delete", new { id = item.ItemNumber }, new { @class = "btn btn-danger" })
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</section>
+
+
+@section Scripts {
+
+
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/DataTables/datatables.min.css" />
+
+    <script type="text/javascript" src="~/Content/DataTables/datatables.min.js"></script>
+
+    @*<script src="~/Content/jquery.js"></script>*@
+    <script src="~/Content/jquery-ui.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#table_id').DataTable({
+                colReorder: true,
+                "pagingType": "full_numbers"
+            });
+        } );
+        $(function () {
+            $("#txtSearch").autocomplete({
+                source: '@Url.Action("Search", "Search")'
+            });
+        });
+
+        setTimeout(function () {//fades out success or error message after 5 seconds
+            $('.fadediv').fadeOut('slow');
+        }, 5000); // can set to make a longer or shorter timeout
+    </script>
+}

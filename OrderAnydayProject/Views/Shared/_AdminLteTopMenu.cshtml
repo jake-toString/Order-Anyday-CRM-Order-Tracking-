@@ -1,0 +1,95 @@
+﻿@*@model OrderAnydayProject.ViewModels.UserDashboardViewModel*@
+@using Microsoft.AspNet.Identity;
+@using OrderAnydayProject.Models;
+
+@{OrderAnyDayContext db = new OrderAnyDayContext(); }
+@* 
+ This partial controls the top menu of the AdminLTE Template, being called automatically by _AdminLteLayout
+    TODO: All of the content in here is stand-in that must be replaced by the real behavior of your app
+*@
+
+@{
+        ViewBag.Layout = null;
+        var uid = User.Identity.GetUserId();
+        var cart = ShoppingCart.GetCart(this.Context);
+        var notifications = db.UserNotifications.Where(s => s.UserId == uid).ToList();
+    }
+
+<header class="main-header">
+    <!-- Logo -->
+    <a href="@Url.Action("Profile", "Home")" class="logo" style="overflow: hidden; position: fixed; top: 0;">
+        <img src="~/Content/images/SPS_.png" class="img-circle" title="logo" alt="logo" />
+        Order<b>Anyday</b>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-fixed-top" role="navigation">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+        </a>
+        <!-- Navbar Right Menu -->
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <!-- Insert Searchbar-->
+                @Html.Partial("_LoginPartial")
+                <!-- Cart: style can be found in dropdown.less -->
+                <li class="dropdown notifications-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-shopping-cart"></i>
+                        @if (cart.GetCount() > 0)
+                        {
+                            <span class="label label-success">@cart.GetCount()</span>
+                        }
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <!-- inner menu: contains the actual data -->
+                            <ul class="menu">
+                                @foreach (var item in cart.GetCartItems())
+                                {
+                                    <li>
+                                        <!-- Task item -->
+                                        <a href="/Products/Details/@item.ItemNumber">
+                                            @item.Product.ItemName
+                                            <small class="pull-right">Quantity: @item.Count</small>
+                                        </a>
+                                    </li><!-- end task item -->
+                                }
+                            </ul>
+                        </li>
+                        <li class="footer">
+                            <a href="/ShoppingCart/Index">View Cart</a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Notifications: style can be found in dropdown.less -->
+                <li class="dropdown notifications-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-bell-o"></i>
+                        @if (notifications.Count > 0)
+                        {
+                            <span class="label label-danger">@notifications.Count</span>
+                        }
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <!-- inner menu: contains the actual data -->
+                            <ul class="menu">
+                                @foreach (var notification in notifications)
+                                {
+                                    <li>
+                                        @{ var link = "/UserNotifications/Details?order=" + notification.OrderNumber + "&uid=" + @notification.UserId;}
+                                        <a href=@link>
+                                            Order @notification.OrderNumber : @notification.Notification.Description
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                        <li class="footer"><a href="/UserNotifications/Index">View Notifications</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>

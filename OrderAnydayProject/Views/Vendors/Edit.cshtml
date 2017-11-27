@@ -1,0 +1,122 @@
+﻿@model OrderAnydayProject.Models.Vendor
+
+@{
+    ViewBag.Title = "Update Vendor Information";
+}
+
+<h1>@(ViewBag.Title)</h1>
+<div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-solid box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Edit Vendors</h3>
+
+                    <div class="box-tools">
+                        <div class="box-tools pull-right">
+                            <p>
+                                <i class="fa fa-arrow-left"></i> @Html.ActionLink("Return to Vendors", "Index")
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.VendorID)
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Vendor_Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Vendor_Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Vendor_Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Website, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Website, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Account_Manager, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Account_Manager, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Account_Manager, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Inactive, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.EditorFor(model => model.Inactive)
+                                    @Html.ValidationMessageFor(model => model.Inactive, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Save" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+
+             </div>
+            </div>
+        </div>
+    </div>
+
+                @section Scripts {
+                    @Scripts.Render("~/bundles/jqueryval")
+                    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+                    @*<script src="~/Content/jquery.js"></script>*@
+                    <script src="~/Content/jquery-ui.js"></script>
+                    <script src="~/Content/jquery.min.js"></script>
+
+                    <script type="text/javascript">
+                        setTimeout(function () {//fades out success message after 5 seconds
+                            $('#fadediv').fadeOut('fast');
+                        }, 5000); // can set to make a longer or shorter timeout
+
+                        $(function () {
+                            $("#txtSearch").autocomplete({
+                                source: '@Url.Action("Search", "Search")'
+                            });
+                        });
+                    </script>
+                }

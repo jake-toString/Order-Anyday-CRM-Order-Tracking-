@@ -1,0 +1,196 @@
+﻿@model OrderAnydayProject.Models.Vendor
+
+@{
+        ViewBag.Title = @Model.Vendor_Name;
+}
+<hr />
+<div class="box box-warning box-solid">
+    <div class="box-header with-border">
+        <h3 class="box-title">Details</h3>
+        <div class="box-tools">
+            <div class="box-tools pull-right">
+               <i class="fa fa-arrow-left"></i> @Html.ActionLink("Back to Vendors", "Index")
+                
+            </div>
+        </div>
+    </div><!-- /.box-header -->
+    <div class="box-body">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Vendor_Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Vendor_Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Phone)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Phone)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Website)
+            </dt>
+
+            <dd>
+                <a href="@Html.DisplayFor(model => model.Website)" target="_blank">
+                    @Html.DisplayFor(model => model.Website)
+                </a>
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Account_Manager)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Account_Manager)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Notes)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Notes)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Inactive)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Inactive)
+            </dd>
+        </dl>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer">
+        @Html.ActionLink("Edit", "Edit", new { id = Model.VendorID }, new { @class = "btn btn-default" } )
+        
+    </div>
+    <!-- box-footer -->
+</div>
+<!-- /.box -->
+
+<hr />
+
+<section>
+    <div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-solid box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Products</h3>
+                        <div class="box-tools">
+                            <div class="box-tools pull-right">
+                                <span>@Html.ActionLink("Add Product ", "Create", "Products", new { id = Model.VendorID }, null)<i class="fa fa-plus"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table id="example2" class="table no-margin table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Products.First().ItemName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Products.First().ItemNumber)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Products.First().Brand)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Products.First().Category)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Products.First().Price)
+                                        </th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Products)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ItemName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ItemNumber)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Brand)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Category)
+                                            </td>
+                                            <td>
+                                                $@Html.DisplayFor(modelItem => item.Price)
+                                            </td>
+                                            <td>
+                                                <div class="btn-group-xs pull-right">
+                                                    @Html.ActionLink("Edit", "Edit", "Products", new { id = item.ItemNumber }, new { @class = "btn btn-default" })
+
+
+                                                    @Html.ActionLink("Details", "Details", "Products", new { id = item.ItemNumber }, new { @class = "btn btn-default" })
+
+
+                                                    @Html.ActionLink("Delete", "Delete", "Products", new { id = item.ItemNumber }, new { @class = "btn btn-default" })
+                                                </div>
+                                                     
+                                           </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+
+
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    @*<script src="~/Content/jquery.js"></script>*@
+    <script src="~/Content/jquery-ui.js"></script>
+    <script src="~/Content/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="~/Content/DataTables/datatables.min.css" />
+
+    <script type="text/javascript" src="~/Content/DataTables/datatables.min.js"></script>
+    
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $('#example2').DataTable();
+            } );
+
+
+            $(function () {
+                $("#txtSearch").autocomplete({
+                    source: '@Url.Action("Search", "Search")'
+                });
+            });
+    </script>
+}
+

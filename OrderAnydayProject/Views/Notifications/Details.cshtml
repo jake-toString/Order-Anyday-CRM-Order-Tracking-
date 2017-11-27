@@ -1,0 +1,45 @@
+﻿@model OrderAnydayProject.Models.Notification
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Notification</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.NotificationID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    @*<script src="~/Content/jquery.js"></script>*@
+    <script src="~/Content/jquery-ui.js"></script>
+    <script src="~/Content/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        setTimeout(function () {//fades out success message after 5 seconds
+            $('#fadediv').fadeOut('fast');
+        }, 5000); // can set to make a longer or shorter timeout
+
+        $(function () {
+            $("#txtSearch").autocomplete({
+                source: '@Url.Action("Search", "Search")'
+            });
+        });
+    </script>
+}

@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNet.Identity
+@model OrderAnydayProject.Models.Order
+
+@{
+    ViewBag.Title = "Place a New Order";
+}
+
+<h1>@(ViewBag.Title)</h1>
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Order</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+         <div class="form-group">
+            @Html.Hidden("UserId", User.Identity.GetUserId()) @*Gets and sets The User by Who is Logged in*@
+         </div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.Placed, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Placed, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Placed, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.Last_Active, new { @Value = @DateTime.Now }) @*Set last updated to exactly right now*@
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    @*<script src="~/Content/jquery.js"></script>*@
+    <script src="~/Content/jquery-ui.js"></script>
+    <script src="~/Content/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        setTimeout(function () {//fades out success message after 5 seconds
+            $('#fadediv').fadeOut('fast');
+        }, 5000); // can set to make a longer or shorter timeout
+
+        $(function () {
+            $("#txtSearch").autocomplete({
+                source: '@Url.Action("Search", "Search")'
+            });
+        });
+    </script>
+}

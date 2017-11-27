@@ -1,0 +1,108 @@
+﻿@model OrderAnydayProject.Models.Vendor
+
+@{
+    ViewBag.Title = "Remove Vendor";
+}
+
+<h1>@(ViewBag.Title)</h1>
+<h3>Are you sure you want to delete this? All assosiated products will also be removed.</h3>
+<div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-solid box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Delete Vendor</h3>
+
+                    <div class="box-tools">
+                        <div class="box-tools pull-right">
+                            <i class="fa fa-arrow-left"></i> @Html.ActionLink("Back to Vendor", "Index")
+                    </div>
+                    </div>
+                    </div>
+                            <div>
+                                
+                                <hr />
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Vendor_Name)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Vendor_Name)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Address)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Address)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Phone)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Phone)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Website)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Website)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Account_Manager)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Account_Manager)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Notes)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Notes)
+                                    </dd>
+
+                                </dl>
+
+                                @using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="form-actions no-color">
+                                        <input type="submit" value="Delete" class="btn btn-default" />
+                                        
+                                    </div>
+                                }
+                            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                            @section Scripts {
+                                @Scripts.Render("~/bundles/jqueryval")
+                                <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+                                @*<script src="~/Content/jquery.js"></script>*@
+                                <script src="~/Content/jquery-ui.js"></script>
+                                <script src="~/Content/jquery.min.js"></script>
+
+                                <script type="text/javascript">
+                                    setTimeout(function () {//fades out success message after 5 seconds
+                                        $('#fadediv').fadeOut('fast');
+                                    }, 5000); // can set to make a longer or shorter timeout
+
+                                    $(function () {
+                                        $("#txtSearch").autocomplete({
+                                            source: '@Url.Action("Search", "Search")'
+                                        });
+                                    });
+                                </script>
+                            }

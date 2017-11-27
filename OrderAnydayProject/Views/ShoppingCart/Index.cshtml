@@ -1,0 +1,221 @@
+﻿@model OrderAnydayProject.ViewModels.ShoppingCartViewModel
+
+@{
+    ViewBag.Title = "Your Cart";
+}
+
+<script src="/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        // Document.ready -> link up remove event handler
+        $(".RemoveLink").click(function () {
+            // Get the id from the link
+            var recordToDelete = $(this).attr("data-id");
+
+            if (recordToDelete != '') {
+
+                // Perform the ajax post
+                $.post("/ShoppingCart/RemoveFromCart", { "id": recordToDelete }, function (data) {                         // Successful requests get here                         // Update the page elements                         if (data.ItemCount == 0) {                             $('#row-' + data.DeleteId).fadeOut('slow');                         } else {                             $('#item-count-' + data.DeleteId).text(data.ItemCount);                         }
+                    if (data.ItemCount == 0) {
+                        $('#row-' + data.DeleteId);
+                        location.reload();
+                    }
+                    $('#cart-total').text(data.CartTotal);
+                    $('#update-message').text(data.Message);
+                    $('#cart-status').text('Cart (' + data.CartCount + ')');
+                });
+            }
+        });
+
+    });
+    $(function () {
+        $(".UpdateQuantity").click(function () {
+            // Get the id from the link
+            var recordToUpdate = $(this).attr("data-id");
+            var countToUpdate = $("#" + $(this).attr("txt-id")).val();
+            if (recordToUpdate != '') {
+                // Perform the ajax post
+                $.post("/ShoppingCart/UpdateCartCount", { "id": recordToUpdate, "cartCount": countToUpdate },
+                    function (data) {
+                        // Successful requests get here
+                        // Update the page elements
+                        if (data.ItemCount == 0) {
+                            $('#row-' + data.DeleteId);
+                            location.reload();
+                        }
+                        location.reload();
+                        $('#update-message').text(data.Message);
+                        $('#cart-total').text(data.CartTotal);
+                        $('#cart-status').text('Cart (' + data.CartCount + ')');
+                    });
+            }
+        });
+
+    });
+    function handleUpdate() {
+        // Load and deserialize the returned JSON data
+        var json = context.get_data(); var data = Sys.Serialization.JavaScriptSerializer.deserialize(json);
+
+        // Update the page elements
+        if (data.ItemCount == 0) { $('#row-' + data.DeleteId).fadeOut('slow'); } else { $('#item-count-' + data.DeleteId).text(data.ItemCount); }
+
+        $('#cart-total').text(data.CartTotal);
+        $('#update-message').text(data.Message);
+        $('#cart-status').text('Cart (' + data.CartCount + ')');
+    }
+
+    setTimeout(function () {//fades out success or error message after 5 seconds
+        $('.fadediv').fadeOut('slow');
+    }, 5000); // can set to make a longer or shorter timeout
+
+    $(function () {
+        $("#txtSearch").autocomplete({
+            source: '@Url.Action("Search", "Search")'
+        });
+    });
+
+</script>
+@if (TempData["Error"] != null)
+{
+    <div class="text-red" id="fadediv">
+        <p><strong>Error:</strong> @TempData["Error"].ToString()</p>
+    </div>
+}
+@if (TempData["success"] != null)
+{
+    <div class="text-green fadediv" id="fadediv">
+        <p><strong>Success:</strong> @TempData["success"].ToString()</p>
+    </div>
+}
+@if (TempData["Removed"] != null)
+{
+    <div class="text-green fadediv" id="fadediv">
+        <p><strong>Success:</strong> @TempData["Removed"].ToString()</p>
+    </div>
+}
+<section>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-solid box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-shopping-cart"></i> Review your cart</h3>
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table id="example2" class="table no-margin table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Product
+                                        </th>
+                                        <th>
+                                            Vendor
+                                        </th>
+                                        <th>
+                                            Quantity
+                                        </th>
+                                        <th>
+                                            Price (per)
+                                        </th>
+                                        <th>
+                                            Subtotal
+                                        </th>
+                                        <th>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int i = 0;}
+                                    @foreach (var item in Model.CartItems)
+                                    {
+                                        <tr id="row-@item.Id">
+                                            <td>
+                                                @Html.ActionLink(item.Product.ItemName, "Details", "Products", new { id = item.ItemNumber }, null)
+                                            </td>
+                                            <td>
+                                                @item.Product.Vendor.Vendor_Name
+                                            </td>
+                                            <td id="item-count-@item.Id">
+
+                                                @Html.TextBoxFor(model => model.CartItems[i].Count, new { type = "number", min = "0", style = "width: 60px;" })
+
+                                                <input type="button" class="UpdateQuantity btn btn-xs btn-info" data-id="@item.Id"
+                                                        txt-id="CartItems_@(i)__Count" value="Update Cart" />
+                                            </td>
+                                            <td>
+                                                @item.Product.Price
+                                            </td>
+                                            <td>
+                                                @{
+                                                    double j;
+                                                    j = Convert.ToDouble(item.Product.Price);
+                                                    j = j * item.Count;
+                                                }
+                                                $@j
+                                            </td>                 
+                                            <td>
+                                                <input type="button" class="RemoveLink btn btn-xs btn-danger" data-id="@item.Id" value="Remove" />
+                                            </td>
+                                        </tr>
+                                        i++;
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="row">
+        <div class="col-xs-6">
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-6">
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th><p class="lead">Total Due:</p></th>
+                        <td><h1>$@Model.CartTotal</h1></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td>
+                            @using (Html.BeginForm("PlaceOrder", "ShoppingCart", FormMethod.Post))
+                            {
+                                <input type="submit" class="btn btn-success" name="PlaceOrder" value="Place Order">
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+    @section Scripts {
+        <script src="~/Content/jquery.min.js"></script>
+        <script src="~/Content/jquery-ui.js"></script>
+        <script type="text/javascript" src="~/Content/DataTables/datatables.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="~/Content/DataTables/datatables.min.css" />
+        <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#example2').DataTable();
+            });
+
+            $(document).ready(function () {
+                $('#table_id').DataTable();
+            });
+
+            $(function () {
+                $("#txtSearch").autocomplete({
+                    source: '@Url.Action("Search", "Search")'
+                });
+            });
+                                </script>
+                            }

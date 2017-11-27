@@ -1,0 +1,63 @@
+﻿@model OrderAnydayProject.ViewModels.UserProfileViewModel
+
+@{
+    ViewBag.Title = "GetUserOrders";
+}
+
+<h2>Orders for @(Model.user.UserName)</h2>
+
+<div>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.orders[1].OrderNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.orders[1].Last_Active)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.orders[1].IsActive)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model.orders)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Last_Active)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.OrderNumber }) |*@
+                @Html.ActionLink("Details", "Details", new { id = item.OrderNumber }) @*|
+                    @Html.ActionLink("Delete", "Delete", new { id = item.OrderNumber })*@
+            </td>
+        </tr>
+    }
+    </table>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    @*<script src="~/Content/jquery.js"></script>*@
+    <script src="~/Content/jquery-ui.js"></script>
+    <script src="~/Content/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        setTimeout(function () {//fades out success message after 5 seconds
+            $('#fadediv').fadeOut('fast');
+        }, 5000); // can set to make a longer or shorter timeout
+
+        $(function () {
+            $("#txtSearch").autocomplete({
+                source: '@Url.Action("Search", "Search")'
+            });
+        });
+    </script>
+}

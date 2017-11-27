@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderAnydayProject", "OrderAnydayProject\OrderAnydayProject.csproj", "{8D941F68-135D-4B17-A24D-56B86187B4FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderAnydayProject.Tests", "OrderAnydayProject.Tests\OrderAnydayProject.Tests.csproj", "{777D4B9E-C79C-41CA-8245-7386FDBA8E03}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8D941F68-135D-4B17-A24D-56B86187B4FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D941F68-135D-4B17-A24D-56B86187B4FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D941F68-135D-4B17-A24D-56B86187B4FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D941F68-135D-4B17-A24D-56B86187B4FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{777D4B9E-C79C-41CA-8245-7386FDBA8E03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{777D4B9E-C79C-41CA-8245-7386FDBA8E03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{777D4B9E-C79C-41CA-8245-7386FDBA8E03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{777D4B9E-C79C-41CA-8245-7386FDBA8E03}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://alvahwyoung.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = OrderAnydayProject.Tests\\OrderAnydayProject.Tests.csproj
+		SccProjectName1 = OrderAnydayProject.Tests
+		SccLocalPath1 = OrderAnydayProject.Tests
+		SccProjectUniqueName2 = OrderAnydayProject\\OrderAnydayProject.csproj
+		SccProjectName2 = OrderAnydayProject
+		SccLocalPath2 = OrderAnydayProject
+	EndGlobalSection
+EndGlobal

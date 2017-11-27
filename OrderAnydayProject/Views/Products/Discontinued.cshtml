@@ -1,0 +1,119 @@
+﻿@model IEnumerable<OrderAnydayProject.Models.Product>
+
+@{
+    ViewBag.Title = "Discontinued";
+}
+
+<div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-solid box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Discontinued Products</h3>
+
+                    <div class="box-tools">
+                        <div class="box-tools pull-right">
+                            <i class="fa fa-arrow-left"></i> @Html.ActionLink("Back To Home", "Profile", "Home")
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table id="table_id" class="table no-margin table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.VendorID)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ItemName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Brand)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Type)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Category)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Price)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Discontinued)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.VendorID)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ItemName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Brand)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Type)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Category)
+                                        </td>
+                                        <td>
+                                            $@Html.DisplayFor(modelItem => item.Price)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Discontinued)
+                                        </td>
+                                        <td>
+                                            <div class="btn-group-xs pull-right">
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.ItemNumber }, new { @class = "btn btn-default" })
+                                                @Html.ActionLink("Details", "Details", new { id = item.ItemNumber }, new { @class = "btn btn-default" })
+                                                @Html.ActionLink("Delete", "Delete", new { id = item.ItemNumber }, new { @class = "btn btn-danger" })
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+                @section Scripts {
+                    @Scripts.Render("~/bundles/jqueryval")
+              <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+            <link rel="stylesheet" type="text/css" href="~/Content/DataTables/datatables.min.css" />
+
+            <script type="text/javascript" src="~/Content/DataTables/datatables.min.js"></script>
+
+            @*<script src="~/Content/jquery.js"></script>*@
+            <script src="~/Content/jquery-ui.js"></script>
+
+            <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#table_id').DataTable();
+                    } );
+
+
+                        setTimeout(function () {//fades out success message after 5 seconds
+                            $('#fadediv').fadeOut('fast');
+                        }, 5000); // can set to make a longer or shorter timeout
+
+                        $(function () {
+                            $("#txtSearch").autocomplete({
+                                source: '@Url.Action("Search", "Search")'
+                            });
+                        });
+</script>
+                }

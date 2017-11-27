@@ -1,0 +1,909 @@
+﻿@model OrderAnydayProject.ViewModels.UserDashboardViewModel
+@{
+    <link href="~/Content/jquery.paginate.css" rel="stylesheet">
+}
+@if (Model.user.FirstName == "Admin")
+{
+    ViewBag.Title = Model.user.FirstName + "'s Profile";
+}
+else
+{
+    ViewBag.Title = Model.user.FirstName + " " + Model.user.LastName + "'s Profile";
+}
+
+@if (TempData["success"] != null)
+{
+    <div class="text-green fadediv" id="fadediv">
+        <p><strong>Success:</strong> @TempData["success"].ToString()</p>
+    </div>
+}
+<!-- Main content -->
+<section>
+    <!-- Small boxes (Stat box) -->
+    @if (User.IsInRole("Admin"))
+        {
+            <div class="row">
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3 style="font-size: x-large;">All<br />Orders<br /></h3>
+
+                            <h4>@Html.DisplayFor(model => model.ordersCount)</h4>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-dropbox"></i>
+                        </div>
+                        <a href="/Orders/Index" class="small-box-footer">
+                            View Orders <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3 style="font-size: x-large;">Approved <br />Orders</h3>
+                            <h4>@Html.DisplayFor(model => model.approvedOrdersCount)</h4>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-check"></i>
+                        </div>
+                        <a href="/OrderApproval/ApprovedOrders" class="small-box-footer">
+                            View Orders <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3 style="font-size: x-large;">Pending<br />Orders</h3>
+                            <h4>@Html.DisplayFor(model => model.pendingOrdersCount)</h4>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-dropbox"></i>
+                        </div>
+                        <a href="/OrderApproval/PendingOrders" class="small-box-footer">
+                            View Orders <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3 style="font-size: x-large;">Notifications<br /><br /></h3>
+
+                            <h4>@Html.DisplayFor(model => model.notificationCount)</h4>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-comments-o"></i>
+                        </div>
+                        <a href="/UserNotifications/Index" class="small-box-footer">
+                            View Notifications <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3 style="font-size: x-large;">Cart<br />Items</h3>
+
+                            <h4>@Html.DisplayFor(model => model.cartCount)</h4>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-shopping-cart"></i>
+                        </div>
+                        <a href="/ShoppingCart/Index" class="small-box-footer">
+                            Go to Cart <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3 style="font-size: x-large;">Users<br /><br /></h3>
+
+                            <h4>@Html.DisplayFor(model => model.userCount)</h4>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                        <a href="/AspNetUsers/Index" class="small-box-footer">
+                            View Users <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3 style="font-size: x-large;">Discontinued<br />Products<br /></h3>
+
+                            <h4>@Html.DisplayFor(model => model.discontinuedProductCount)</h4>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-th-large"></i>
+                        </div>
+                        <a href="/Products/Discontinued" class="small-box-footer">
+                            View Discontinued <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3 style="font-size: x-large;">Inactive<br />Vendors<br /></h3>
+
+                            <h4>@Html.DisplayFor(model => model.inactiveVendorCount)</h4>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-address-book"></i>
+                        </div>
+                        <a href="/Vendors/Inactive" class="small-box-footer">
+                            View Inactive <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3 style="font-size: x-large;">Add <br />Department<br /></h3>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-building-o"></i>
+                        </div>
+                        <a href="/Department/Create" class="small-box-footer">
+                            Create Department <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3 style="font-size: x-large;">Add <br />Category<br /></h3>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-book"></i>
+                        </div>
+                        <a href="/Category/Create" class="small-box-footer">
+                            Create Categories <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3 style="font-size: x-large;">Add <br />Product</h3>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-th-large"></i>
+                        </div>
+                        <a href="/Products/Create" class="small-box-footer">
+                            Create Product <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3 style="font-size: x-large;">Add <br />Vendor<br /></h3>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-address-book"></i>
+                        </div>
+                        <a href="/Vendors/Create" class="small-box-footer">
+                            Create Vendor <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <section>
+                <!-- Main row -->
+                <div class="row">
+                    <!-- Left col -->
+                    <div class="col-md-7">
+                        <!-- TABLE: LATEST ORDERS -->
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Latest Orders</h3>
+
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="table-responsive">
+                                    <table class="table no-margin table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.orders.FirstOrDefault().OrderNumber)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.orders.FirstOrDefault().Last_Active)
+                                                </th>
+                                                <th>
+                                                    @Html.Label("Status")
+                                                </th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.latestOrders)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.OrderNumber)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Last_Active)
+                                                    </td>
+                                                    <td>
+                                                        @{
+                                                            if (item.IsActive == "p")
+                                                            {
+                                                                <span class="label label-warning">
+                                                                    @Html.Label("Pending")
+                                                                </span>
+                                                            }
+
+                                                            if (item.IsActive == "a")
+                                                            {
+                                                                <span class="label label-success">
+                                                                    @Html.Label("Approved")
+                                                                </span>
+                                                            }
+
+                                                            if (item.IsActive == "c")
+                                                            {
+                                                                <span class="label label-danger">
+                                                                    @Html.Label("Cancelled")
+                                                                </span>
+                                                            }
+
+                                                            if (item.IsActive == "d")
+                                                            {
+                                                                <span class="label label-danger">
+                                                                    @Html.Label("Declined")
+                                                                </span>
+                                                            }
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @*linkText, actionName, controllerName, routeValues, htmlAttributes*@
+                                                        <div class="btn-group-xs pull-right">
+                                                            <a href="@Url.Action("OrderInvoice", "OrderDetails", new { id = item.OrderNumber }, null)" class="btn btn-warning">
+                                                                Details
+                                                                <span class="fa fa-pencil-square-o" aria-hidden="true"></span>
+                                                            </a>
+                                                            
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                            }
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                            <!-- /.box-body -->
+                            <div class="box-footer text-center">
+                                @Html.ActionLink("View All Orders", "Index", "Orders", null, new { @class = "btn btn-default" })
+                            </div>
+                            <!-- /.box-footer -->
+                        </div>
+                        </div>
+
+                        <div class="col-md-5">
+                            <!-- PRODUCT LIST -->
+
+                            <div class="box box-primary">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Recently Added Products</h3>
+
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="table-responsive">
+                                        <table class="table no-margin table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        @Html.DisplayNameFor(model => model.latestProducts.FirstOrDefault().ItemName)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(model => model.latestProducts.FirstOrDefault().Category)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(model => model.latestProducts.FirstOrDefault().Price)
+                                                    </th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.latestProducts)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <div class="product-info">   
+                                                                    <span class="product-description">
+                                                                        <a href="@Url.Action("Details", "Products", new { id = item.ItemNumber }, null)">
+                                                                            @Html.DisplayFor(modelItem => item.ItemName)
+                                                                        </a>
+                                                                    </span>                                                                
+                                                            </div>
+
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Category)
+                                                        </td>
+                                                        <td>
+                                                            <span class="label label-success pull-right">$@Html.DisplayFor(modelItem => item.Price)</span>                                                            
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <!-- /.table-responsive -->
+                                </div>
+                                
+                                <!-- /.box-body -->
+                                <div class="box-footer text-center">
+                                    @Html.ActionLink("View All Products", "Index", "Products", null, new { @class = "btn btn-default" })
+                                </div>
+                                <!-- /.box-footer -->
+                            </div>
+                        </div>
+                    </div>
+                <input type="hidden" id="productCat0" name="productCat0" value=@Html.DisplayFor(model => model.productCats[0])>
+                <input type="hidden" id="productCatCount0" name="productCatCount0" value=@Html.DisplayFor(model => model.productCatsCount[0])>
+                <input type="hidden" id="productCat1" name="productCat1" value=@Html.DisplayFor(model => model.productCats[1])>
+                <input type="hidden" id="productCatCount1" name="productCatCount1" value=@Html.DisplayFor(model => model.productCatsCount[1])>
+                <input type="hidden" id="productCat2" name="productCat2" value=@Html.DisplayFor(model => model.productCats[2])>
+                <input type="hidden" id="productCatCount2" name="productCatCount2" value=@Html.DisplayFor(model => model.productCatsCount[2])>
+                <input type="hidden" id="productCat3" name="productCat3" value=@Html.DisplayFor(model => model.productCats[3])>
+                <input type="hidden" id="productCatCount3" name="productCatCount3" value=@Html.DisplayFor(model => model.productCatsCount[3])>
+                <input type="hidden" id="productCat4" name="productCat4" value=@Html.DisplayFor(model => model.productCats[4])>
+                <input type="hidden" id="productCatCount4" name="productCatCount4" value=@Html.DisplayFor(model => model.productCatsCount[4])>
+                <div class="row">
+
+                    <div class="col-md-5">
+
+
+                        <div class="box box-default">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">@Html.DisplayFor(model => model.Year) Product Purchases</h3>
+
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="chart-responsive">
+                                            <canvas id="pieChart" height="150"></canvas>
+                                        </div>
+                                        <!-- ./chart-responsive -->
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-md-4">
+                                        <ul class="chart-legend clearfix">
+                                           
+                                            <li><i class="fa fa-circle-o text-red"></i> @Model.productCats[0]</li>
+                                            <li><i class="fa fa-circle-o text-green"></i> @Model.productCats[1]</li>
+                                            <li><i class="fa fa-circle-o text-yellow"></i> @Model.productCats[2]</li>
+                                            <li><i class="fa fa-circle-o text-aqua"></i> @Model.productCats[3]</li>
+                                            <li><i class="fa fa-circle-o text-light-blue"></i> @Model.productCats[4]</li>                                                
+                                        </ul>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+                            </div>
+                            <!-- /.box-body -->
+                            
+                            <!-- /.footer -->
+                        </div>
+                        <!-- /.box -->
+
+                    </div>
+                    <!-- /.col -->
+                    <!-- Main row -->
+                    
+                    <input type="hidden" id="jandata" name="jandata" value=@Html.DisplayFor(model => model.janTotal)>
+                    <input type="hidden" id="febdata" name="febdata" value=@Html.DisplayFor(model => model.febTotal)>
+                    <input type="hidden" id="mardata" name="mardata" value=@Html.DisplayFor(model => model.marTotal)>
+                    <input type="hidden" id="aprdata" name="aprdata" value=@Html.DisplayFor(model => model.aprTotal)>
+                    <input type="hidden" id="maydata" name="maydata" value=@Html.DisplayFor(model => model.mayTotal)>
+
+                   
+                    <div class="col-md-7">
+                        <!-- BAR CHART -->
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">@Html.DisplayFor(model => model.Year) Monthly Expenditures</h3>
+
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="chart">
+                                    <canvas id="barChart" style="height:230px"></canvas>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+
+                    </div>
+
+                    <!-- /.col (RIGHT) -->
+                </div>
+        </section>
+
+                            <!-- /.row -->
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col-lg-3 col-xs-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-aqua">
+                                        <div class="inner">
+                                            <h3 style="font-size: x-large;">My<br />Orders<br /></h3>
+
+                                            <h4>@Html.DisplayFor(model => model.ordersCount)</h4>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-th-large"></i>
+                                        </div>
+                                        <a href="/Orders/Index" class="small-box-footer">
+                                            View Orders <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-xs-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-green">
+                                        <div class="inner">
+                                            <h3 style="font-size: x-large;">Approved <br />Orders</h3>
+                                            <h4>@Html.DisplayFor(model => model.approvedOrdersCount)</h4>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-check"></i>
+                                        </div>
+                                        <a href="/OrderApproval/ApprovedOrders" class="small-box-footer">
+                                            View Orders <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-xs-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-yellow">
+                                        <div class="inner">
+                                            <h3 style="font-size: x-large;">Pending<br />Orders</h3>
+                                            <h4>@Html.DisplayFor(model => model.pendingOrdersCount)</h4>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-dropbox"></i>
+                                        </div>
+                                        <a href="/OrderApproval/PendingOrders" class="small-box-footer">
+                                            View Orders <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-xs-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-red">
+                                        <div class="inner">
+                                            <h3 style="font-size: x-large;">Declined Orders<br /><br /></h3>
+
+                                            <h4>@Html.DisplayFor(model => model.declinedOrdersCount)</h4>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-comments-o"></i>
+                                        </div>
+                                        <a href="/OrderApproval/DeclinedOrders" class="small-box-footer">
+                                            View Declined Orders <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-xs-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-green">
+                                        <div class="inner">
+                                            <h3 style="font-size: x-large;">Cart<br />Items</h3>
+
+                                            <h4>@Html.DisplayFor(model => model.cartCount)</h4>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-shopping-cart"></i>
+                                        </div>
+                                        <a href="/ShoppingCart/Index" class="small-box-footer">
+                                            Go to Cart <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+
+                                <!-- ./col -->
+                                <div class="col-lg-3 col-xs-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-aqua">
+                                        <div class="inner">
+                                            <h3 style="font-size: x-large;">Products<br /><br /></h3>
+
+                                            <h4><br /></h4>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-briefcase"></i>
+                                        </div>
+                                        <a href="/Products/Index" class="small-box-footer">
+                                            View Products <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- ./col -->
+                                <!-- ./col -->
+                                <div class="col-lg-3 col-xs-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-red">
+                                        <div class="inner">
+                                            <h3 style="font-size: x-large;">Notifications<br /><br /></h3>
+
+                                            <h4>@Html.DisplayFor(model => model.notificationCount)</h4>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-comments-o"></i>
+                                        </div>
+                                        <a href="/UserNotifications/Index" class="small-box-footer">
+                                            View Notifications <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-xs-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-yellow">
+                                        <div class="inner">
+                                            <h3 style="font-size: x-large;">Vendors<br /><br /></h3>
+
+                                            <h4><br /></h4>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-briefcase"></i>
+                                        </div>
+                                        <a href="/Vendors/Index" class="small-box-footer">
+                                            View Products <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <section>
+                                <div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="box box-solid box-primary collapsed-box">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title">Orders</h3>
+                                                    <div class="box-tools">
+                                                        <div class="box-tools pull-right">
+                                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                                <i class="fa fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="table-responsive">
+                                                        <table id="example2" class="table no-margin table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>
+                                                                        @Html.DisplayNameFor(model => model.orders.FirstOrDefault().OrderNumber)
+                                                                    </th>
+                                                                    <th>
+                                                                        @Html.DisplayNameFor(model => model.orders.FirstOrDefault().Last_Active)
+                                                                    </th>
+                                                                    <th>
+                                                                        @Html.Label("Status")
+                                                                    </th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var item in Model.orders)
+                                                                {
+                                                                    <tr>
+                                                                        <td>
+                                                                            @Html.DisplayFor(modelItem => item.OrderNumber)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DisplayFor(modelItem => item.Last_Active)
+                                                                        </td>
+                                                                        <td>
+                                                                            @{
+                                                                                if (item.IsActive == "p")
+                                                                                {
+                                                                                    <span class="label label-warning">
+                                                                                        @Html.Label("Pending")
+                                                                                    </span>
+                                                                                }
+
+                                                                                if (item.IsActive == "a")
+                                                                                {
+                                                                                    <span class="label label-success">
+                                                                                        @Html.Label("Approved")
+                                                                                    </span>
+                                                                                }
+
+                                                                                if (item.IsActive == "c")
+                                                                                {
+                                                                                    <span class="label label-danger">
+                                                                                        @Html.Label("Cancelled")
+                                                                                    </span>
+                                                                                }
+
+                                                                                if (item.IsActive == "d")
+                                                                                {
+                                                                                    <span class="label label-danger">
+                                                                                        @Html.Label("Declined")
+                                                                                    </span>
+                                                                                }
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="btn-group-xs pull-right">
+                                                                                <a href="@Url.Action("OrderInvoice", "OrderDetails", new { id = item.OrderNumber }, null)" class="btn btn-warning">
+                                                                                    Details
+                                                                                    <span class="fa fa-pencil-square-o" aria-hidden="true"></span>
+                                                                                </a>
+                                                                                <a href="@Url.Action("Cancel", new { id = item.OrderNumber })" class="btn btn-danger">
+                                                                                    Cancel
+                                                                                    <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+                                                                                </a>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                              }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.box-body -->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+                                </div>
+                            </section>
+      }
+   
+</section>
+
+
+                
+                                                                 
+                
+
+
+                @section Scripts {
+                    <script src="~/Content/jquery.min.js"></script>
+                    <script src="~/Content/jquery-ui.js"></script>
+                    <script src="~/Content/plugins/chartjs/Chart.min.js"></script>
+                    <script type="text/javascript" src="~/Content/DataTables/datatables.min.js"></script>
+                    <link rel="stylesheet" type="text/css" href="~/Content/DataTables/datatables.min.css" />
+                    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+
+
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $('#example2').DataTable({
+                                colReorder: true,
+                                "pagingType": "full_numbers"
+                            });
+                        });
+
+                        $(document).ready(function () {
+                            $('#table_id').DataTable({
+                                colReorder: true,
+                                "pagingType": "full_numbers"
+                            });
+                        });
+
+                        $(function () {
+                            $("#txtSearch").autocomplete({
+                                source: '@Url.Action("Search", "Search")'
+                            });
+                        });
+
+                        setTimeout(function () {//fades out success or error message after 5 seconds
+                            $('.fadediv').fadeOut('slow');
+                        }, 5000); // can set to make a longer or shorter timeout
+
+
+                        $(function () {
+                            /* ChartJS
+                             * -------
+                             * Here we will create a few charts using ChartJS
+                             */
+                            var p1 = $("#productCat0").val();
+                            var p2 = $("#productCat1").val();
+                            var p3 = $("#productCat2").val();
+                            var p4 = $("#productCat3").val();
+                            var p5 = $("#productCat4").val();
+                            var pc1 = $("#productCatCount0").val();
+                            var pc2 = $("#productCatCount1").val();
+                            var pc3 = $("#productCatCount2").val();
+                            var pc4 = $("#productCatCount3").val();
+                            var pc5 = $("#productCatCount4").val();
+                            //-------------
+                            //- PIE CHART -
+                            //-------------
+                            // Get context with jQuery - using jQuery's .get() method.
+                            var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+                            var pieChart = new Chart(pieChartCanvas);
+                            var PieData = [
+                              {
+                                  value: pc1,
+                                  color: "#f56954",
+                                  highlight: "#f56954",
+                                  label: p1
+                              },
+                              {
+                                  value: pc2,
+                                  color: "#00a65a",
+                                  highlight: "#00a65a",
+                                  label: p2
+                              },
+                              {
+                                  value: pc3,
+                                  color: "#f39c12",
+                                  highlight: "#f39c12",
+                                  label: p3
+                              },
+                              {
+                                  value: pc4,
+                                  color: "#00c0ef",
+                                  highlight: "#00c0ef",
+                                  label: p4
+                              },
+                              {
+                                  value: pc5,
+                                  color: "#3c8dbc",
+                                  highlight: "#3c8dbc",
+                                  label: p5
+                              }
+                            ];
+                            var pieOptions = {
+                                //Boolean - Whether we should show a stroke on each segment
+                                segmentShowStroke: true,
+                                //String - The colour of each segment stroke
+                                segmentStrokeColor: "#fff",
+                                //Number - The width of each segment stroke
+                                segmentStrokeWidth: 2,
+                                //Number - The percentage of the chart that we cut out of the middle
+                                percentageInnerCutout: 50, // This is 0 for Pie charts
+                                //Number - Amount of animation steps
+                                animationSteps: 100,
+                                //String - Animation easing effect
+                                animationEasing: "easeOutBounce",
+                                //Boolean - Whether we animate the rotation of the Doughnut
+                                animateRotate: true,
+                                //Boolean - Whether we animate scaling the Doughnut from the centre
+                                animateScale: false,
+                                //Boolean - whether to make the chart responsive to window resizing
+                                responsive: true,
+                                // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+                                maintainAspectRatio: true,
+                                //String - A legend template
+                                legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
+                            };
+                            //Create pie or douhnut chart
+                            // You can switch between pie and douhnut using the method below.
+                            pieChart.Doughnut(PieData, pieOptions);
+
+                            //-------------
+                            //- BAR CHART -
+                            //-------------
+                            var d1 = $("#jandata").val();
+                            var d2 = $("#febdata").val();
+                            var d3 = $("#mardata").val();
+                            var d4 = $("#aprdata").val();
+                            var d5 = $("#maydata").val();
+                            var barChartCanvas = $("#barChart").get(0).getContext("2d");
+                            var barChart = new Chart(barChartCanvas);
+                            var barChartData = {
+                                labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                                datasets: [
+                                  {
+                                      label: "Expense",
+                                      fillColor: "rgba(60,141,188,0.9)",
+                                      strokeColor: "rgba(210, 214, 222, 1)",
+                                      pointColor: "rgba(210, 214, 222, 1)",
+                                      pointStrokeColor: "#c1c7d1",
+                                      pointHighlightFill: "#fff",
+                                      pointHighlightStroke: "rgba(220,220,220,1)",
+                                      data: [d1, d2, d3, d4, d5, 0, 0, 0, 0, 0, 0, 0]
+                                  }
+                                  
+                                ]
+                            };
+                            barChartData.datasets[0].fillColor = "#00a65a";
+                            barChartData.datasets[0].strokeColor = "#00a65a";
+                            barChartData.datasets[0].pointColor = "#00a65a";
+                            var barChartOptions = {
+                                //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+                                scaleBeginAtZero: true,
+                                //Boolean - Whether grid lines are shown across the chart
+                                scaleShowGridLines: true,
+                                //String - Colour of the grid lines
+                                scaleGridLineColor: "rgba(0,0,0,.05)",
+                                //Number - Width of the grid lines
+                                scaleGridLineWidth: 1,
+                                //Boolean - Whether to show horizontal lines (except X axis)
+                                scaleShowHorizontalLines: true,
+                                //Boolean - Whether to show vertical lines (except Y axis)
+                                scaleShowVerticalLines: true,
+                                //Boolean - If there is a stroke on each bar
+                                barShowStroke: true,
+                                //Number - Pixel width of the bar stroke
+                                barStrokeWidth: 2,
+                                //Number - Spacing between each of the X value sets
+                                barValueSpacing: 5,
+                                //Number - Spacing between data sets within X values
+                                barDatasetSpacing: 1,
+                                //String - A legend template
+                                //legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+                                //Boolean - whether to make the chart responsive
+                                responsive: true,
+                                maintainAspectRatio: true
+                            };
+
+                            barChartOptions.datasetFill = false;
+                            barChart.Bar(barChartData, barChartOptions);
+                        });
+                    </script>
+                }
